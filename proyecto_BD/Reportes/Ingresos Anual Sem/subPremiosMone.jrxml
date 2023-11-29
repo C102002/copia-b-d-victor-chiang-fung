@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subPremiosMone" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f47d3b8c-3134-454b-ad47-37d01e2ea69e">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Proyecto_SQL"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="año" class="java.lang.Integer" evaluationTime="Early">
+		<defaultValueExpression><![CDATA[2022]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nombre" class="java.lang.String" evaluationTime="Early">
+		<defaultValueExpression><![CDATA["G.R.E.S. Unidos Da Tijuca"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select h.anio, h.monto 
+from vah_hist_titulos h, vah_escuelas e
+where h.monto is not null
+	and	e.idescuela = h.idescuela
+		and upper(e.nombre) like upper( CONCAT( CONCAT('%',$P{nombre}),'%' ) ) 
+			and h.anio >= make_date($P{año},1,1) 
+				and	h.anio < make_date($P{año}+1,1,1)]]>
+	</queryString>
+	<field name="anio" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="anio"/>
+		<property name="com.jaspersoft.studio.field.label" value="anio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_hist_titulos"/>
+	</field>
+	<field name="monto" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="monto"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_hist_titulos"/>
+	</field>
+	<variable name="infoEvento" class="java.lang.String">
+		<variableExpression><![CDATA["El "+$F{anio}+" se recibió el monto de "+$F{monto}+" R$ como premio monetario."]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="-10" y="2" width="284" height="30" uuid="cc64d330-e358-4346-b7f7-0c28e085a833"/>
+				<textElement textAlignment="Left">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Ingresos por Premios]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="31" splitType="Stretch">
+			<textField>
+				<reportElement x="-10" y="0" width="460" height="30" uuid="cc83e9c4-1f62-4de9-b5a3-282cc12f5beb"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$V{infoEvento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FichaIntegranteDeEscuela" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="4ec150d9-80da-4b77-9db4-956ed27bad77">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="638"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="348"/>
+	<parameter name="ParamIdIntegrante" class="java.lang.Integer">
+		<parameterDescription><![CDATA[ID del Integrante]]></parameterDescription>
+	</parameter>
+	<parameter name="ParamIdEscuela" class="java.lang.Integer">
+		<parameterDescription><![CDATA[Id de la Escuela]]></parameterDescription>
+	</parameter>
+	<parameter name="ParamAnioRoles" class="java.sql.Date"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT esc.nombre nombreEscuela,
+              inte.fechanacimiento, inte.primnom, inte.segnom, inte.primap, inte.segap, inte.nacionalidad, inte.apodo, inte.cpf,
+              hist.fechaingreso, hist.fechaRetiro
+	FROM vah_escuelas esc,  vah_integrantes inte,  vah_hist_integrantes hist
+		WHERE  (inte.idIntegrante = $P!{ParamIdIntegrante}) AND
+		(esc.idEscuela = $P!{ParamIdEscuela}) AND
+		(inte.idIntegrante = hist.idIntegrante) AND 
+		(hist.idEscuela = esc.idEscuela)
+			ORDER BY esc.idEscuela,inte.idIntegrante, hist.fechaingreso asc]]>
+	</queryString>
+	<field name="nombreescuela" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombreescuela"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombreescuela"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_escuelas"/>
+	</field>
+	<field name="fechanacimiento" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fechanacimiento"/>
+		<property name="com.jaspersoft.studio.field.label" value="fechanacimiento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_integrantes"/>
+	</field>
+	<field name="primnom" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="primnom"/>
+		<property name="com.jaspersoft.studio.field.label" value="primnom"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_integrantes"/>
+	</field>
+	<field name="segnom" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="segnom"/>
+		<property name="com.jaspersoft.studio.field.label" value="segnom"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_integrantes"/>
+	</field>
+	<field name="primap" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="primap"/>
+		<property name="com.jaspersoft.studio.field.label" value="primap"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_integrantes"/>
+	</field>
+	<field name="segap" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="segap"/>
+		<property name="com.jaspersoft.studio.field.label" value="segap"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_integrantes"/>
+	</field>
+	<field name="nacionalidad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nacionalidad"/>
+		<property name="com.jaspersoft.studio.field.label" value="nacionalidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_integrantes"/>
+	</field>
+	<field name="apodo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="apodo"/>
+		<property name="com.jaspersoft.studio.field.label" value="apodo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_integrantes"/>
+	</field>
+	<field name="cpf" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="cpf"/>
+		<property name="com.jaspersoft.studio.field.label" value="cpf"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_integrantes"/>
+	</field>
+	<field name="fechaingreso" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fechaingreso"/>
+		<property name="com.jaspersoft.studio.field.label" value="fechaingreso"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_hist_integrantes"/>
+	</field>
+	<field name="fecharetiro" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecharetiro"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecharetiro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_hist_integrantes"/>
+	</field>
+	<variable name="nombreescuela1" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{nombreescuela}]]></variableExpression>
+	</variable>
+	<variable name="primnom1" class="java.lang.Integer" resetType="Page" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{primnom}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="81">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="50" width="555" height="31" forecolor="#FFFFFF" backcolor="#0839FF" uuid="da4aa1f7-ac89-4862-8e28-ab84b186bbd5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ficha de integrante en la escuela " + $F{nombreescuela}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="10" y="-10" width="50" height="50" uuid="1ae0d8c9-d3b6-41e1-b954-4e7f89b77659"/>
+				<imageExpression><![CDATA["/Logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="179" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="40" width="530" height="30" uuid="76ee7693-9844-4348-8d1e-692021dac8c2"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nombre: " +($F{primnom} == null ? "" : $F{primnom}) + ' ' + ($F{segnom} == null ? "" : $F{segnom}) + ' ' + ($F{primap} == null ? "" : $F{primap}) + ' ' +($F{segap} == null ? "" : $F{segap})]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMM d, yyyy">
+				<reportElement x="10" y="100" width="220" height="30" uuid="d8642b80-7dcf-4b68-849f-4804d295f4e5"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nació el " + DATEFORMAT($F{fechanacimiento},"d") + " de " + DATEFORMAT($F{fechanacimiento},"MMMM") + " de " + DATEFORMAT($F{fechanacimiento},"yyyy")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="70" width="220" height="30" uuid="e1aa8155-d56b-4c62-a376-71a419f2aeeb"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("Apodo: "+(($F{apodo}!=null)?$F{apodo}:"Ninguno"))]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="130" width="210" height="30" uuid="d0479c06-a783-4dd7-9c4d-7917d2918572"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("CPF: "+(($F{cpf}!=null)?$F{cpf}:"Ninguno"))]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="63">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+			<textField>
+				<reportElement x="0" y="10" width="530" height="40" uuid="a076cea4-e3aa-45a6-8025-b39763d0f8eb"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["A continuación, un resumen de las temporadas de membresía del integrante, en la escuela " + $F{nombreescuela}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="92" splitType="Prevent">
+			<textField pattern="MMMM d, yyyy">
+				<reportElement x="0" y="20" width="110" height="30" isPrintInFirstWholeBand="true" uuid="bcd33505-6982-4916-9727-a1d760d01e40">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8ffc8464-a0c0-4a57-9e8a-fc2ee65d5f93"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["- Ingresó en " + DATEFORMAT($F{fechaingreso},"yyyy")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="96" y="20" width="130" height="30" isPrintInFirstWholeBand="true" uuid="4f92efc1-9463-42c6-adc3-7e6bfc41e20f">
+					<printWhenExpression><![CDATA[$F{fecharetiro} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" y se retiró en " + DATEFORMAT($F{fecharetiro},"yyyy")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="96" y="20" width="240" height="30" isPrintInFirstWholeBand="true" uuid="0e398ee9-ce5e-4bce-8cb5-7ddaab4adbc9">
+					<printWhenExpression><![CDATA[$F{fecharetiro} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["y sigue siendo miembro a día de hoy"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="20" width="260" height="30" isPrintInFirstWholeBand="true" uuid="8fd23da8-fbf3-4683-8ed9-002d308e2ca1">
+					<printWhenExpression><![CDATA[$F{fecharetiro} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[", habiendo trabajado por un total de " + (YEARS($F{fechaingreso},$F{fecharetiro}) + 1) + " años"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="50"/>
+	</columnFooter>
+</jasperReport>

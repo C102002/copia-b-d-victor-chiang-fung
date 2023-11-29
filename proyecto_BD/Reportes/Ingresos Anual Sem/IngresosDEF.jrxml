@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ingresos" pageWidth="612" pageHeight="1000" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="222929b7-7a3e-42f2-975b-db829c567bdf">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Proyecto_SQL"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="opt" class="java.lang.String" evaluationTime="Early"/>
+	<parameter name="año" class="java.lang.Integer" evaluationTime="Early">
+		<defaultValueExpression><![CDATA[2022]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nombre" class="java.lang.String" evaluationTime="Early"/>
+	<parameter name="pini" class="java.util.Date" isForPrompting="false" evaluationTime="Early">
+		<defaultValueExpression><![CDATA[$P{opt}.equals("anual") ? DATE($P{año} ,1,1): 
+($P{opt}.equals("psem") ?  DATE($P{año} ,1,1): DATE($P{año} ,7,1))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pfin" class="java.util.Date" isForPrompting="false" evaluationTime="Early">
+		<defaultValueExpression><![CDATA[$P{opt}.equals("anual") ? DATE($P{año}+1,1,1)  : 
+($P{opt}.equals("psem") ?  DATE($P{año},7,1)  : DATE($P{año}+1,1,1) )]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select e.nombre nombrees, h.nombre,h.totalasistencias, h.costounitario, h.fechainicio, h.fechafin, sum(h.totalasistencias) totalas, sum(h.costounitario) totalcos
+from vah_hist_eventos_anual_sem h, vah_escuelas e
+where h.idescuela=e.idescuela and
+	h.fechainicio >= $P{pini} and  
+	h.fechafin < $P{pfin}  and 
+	upper(e.nombre) like upper( CONCAT( CONCAT('%',$P{nombre}),'%' ) ) and 
+	h.tipoevento = 'G'
+group by e.nombre, h.nombre,h.totalasistencias, h.costounitario, h.fechainicio, h.fechafin
+order by h.fechainicio]]>
+	</queryString>
+	<field name="nombrees" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombrees"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombrees"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_escuelas"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_hist_eventos_anual_sem"/>
+	</field>
+	<field name="totalasistencias" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="totalasistencias"/>
+		<property name="com.jaspersoft.studio.field.label" value="totalasistencias"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_hist_eventos_anual_sem"/>
+	</field>
+	<field name="costounitario" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="costounitario"/>
+		<property name="com.jaspersoft.studio.field.label" value="costounitario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_hist_eventos_anual_sem"/>
+	</field>
+	<field name="fechainicio" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fechainicio"/>
+		<property name="com.jaspersoft.studio.field.label" value="fechainicio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_hist_eventos_anual_sem"/>
+	</field>
+	<field name="fechafin" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fechafin"/>
+		<property name="com.jaspersoft.studio.field.label" value="fechafin"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_hist_eventos_anual_sem"/>
+	</field>
+	<field name="totalas" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="totalas"/>
+		<property name="com.jaspersoft.studio.field.label" value="totalas"/>
+	</field>
+	<field name="totalcos" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="totalcos"/>
+		<property name="com.jaspersoft.studio.field.label" value="totalcos"/>
+	</field>
+	<variable name="infoEvento" class="java.lang.String">
+		<variableExpression><![CDATA["Para el "+$F{nombre}+" cuya duración fue desde el "+ $F{fechainicio}+" hasta el "+$F{fechafin}+
+" asistieron un total de "+$F{totalasistencias}+" personas. El costo unitario del evento fue de " + $F{costounitario}+" R$."]]></variableExpression>
+	</variable>
+	<variable name="tit" class="java.lang.String">
+		<variableExpression><![CDATA[$P{opt}.equals("anual") ? "Anual "+$P{año}: 
+($P{opt}.equals("psem") ?  "Semestre Enero-Junio": "Semestre Julio-Diciembre")]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-20" y="60" width="611" height="36" backcolor="#210DFF" uuid="0ddcb969-f4ac-4d36-9402-01490fbd1b6d"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="120" y="66" width="200" height="30" forecolor="#FFFFFF" uuid="4bc70a97-c191-4401-9db2-9ed31b46ffff"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Ingresos]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="295" y="67" width="212" height="30" forecolor="#FFFFFF" uuid="de1aa216-c2dc-4f66-839f-bb5b059506e4"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{opt}.equals("anual") ? "Anual "+$P{año}+"-"+($P{año}+1): 
+($P{opt}.equals("psem") ?  "Semestre Enero-Junio": "Semestre Julio-Diciembre")]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="15" y="-10" width="65" height="60" uuid="3948c108-2acc-46e2-9e2a-227a8285c2b3"/>
+				<imageExpression><![CDATA["/Logo.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="140" y="14" width="260" height="30" uuid="44308050-2714-48c2-a17f-21fb5d639467">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="033a031b-f4cd-4168-b1e2-d33e5c8e199d"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrees}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="25">
+			<subreport>
+				<reportElement x="10" y="0" width="40" height="21" uuid="61d5e43c-b065-4d63-acd5-a339a5e5c78c"/>
+				<subreportParameter name="opt">
+					<subreportParameterExpression><![CDATA[$P{opt}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="año">
+					<subreportParameterExpression><![CDATA[$P{año}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="nombre">
+					<subreportParameterExpression><![CDATA[$P{nombre}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["subNochesSamba.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement x="30" y="3" width="284" height="30" uuid="caaf7b0e-35ea-4a98-b34a-5a7176595499"/>
+				<textElement textAlignment="Left">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Ingresos por Eventos Generales]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<textField>
+				<reportElement x="30" y="0" width="509" height="30" uuid="2ddc841c-2d8d-4482-b553-0eeef3613445"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$V{infoEvento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="30">
+			<subreport>
+				<reportElement x="20" y="1" width="40" height="28" uuid="dfdc3062-fc73-429e-bd16-e6dd94d0e71e"/>
+				<subreportParameter name="año">
+					<subreportParameterExpression><![CDATA[$P{año}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="nombre">
+					<subreportParameterExpression><![CDATA[$P{nombre}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["subPremiosMone.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

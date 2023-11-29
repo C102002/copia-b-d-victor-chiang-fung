@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="totalAsistentes" pageWidth="612" pageHeight="550" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="b93781fc-a8d8-470b-a02b-f3875a50cadc">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CONNECT BD"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="nombre" class="java.lang.String" nestedType="java.lang.String" evaluationTime="Early">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha" class="java.lang.Integer" nestedType="java.lang.Integer" evaluationTime="Early">
+		<defaultValueExpression><![CDATA[2022]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT sum( s.totalasistencias) asistencia,
+	s.tipoevento
+FROM vah_hist_eventos_anual_sem s,
+	vah_escuelas e
+WHERE 
+	 e.nombre = $P{nombre} 
+	 AND e.idescuela = s.idescuela 
+	 AND s.fechainicio >= make_date($P{fecha}, 1, 1)
+	 AND s.fechafin < make_date($P{fecha}+1, 1, 1)
+	 AND s.tipoevento = 'G' 
+GROUP BY s.tipoevento]]>
+	</queryString>
+	<field name="asistencia" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="asistencia"/>
+		<property name="com.jaspersoft.studio.field.label" value="asistencia"/>
+	</field>
+	<field name="tipoevento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipoevento"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipoevento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vah_hist_eventos_anual_sem"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="91" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-20" y="-20" width="611" height="109" backcolor="#FFD6A5" uuid="0479cb5a-0551-4369-a92b-cfe6fa28f850"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="27" width="100" height="30" uuid="734ea848-fcde-4bda-950a-124841fa7388"/>
+				<textElement textAlignment="Center">
+					<font fontName="Magneto" size="22"/>
+				</textElement>
+				<text><![CDATA[COM]]></text>
+			</staticText>
+			<image>
+				<reportElement x="10" y="10" width="55" height="40" uuid="52c584c0-921a-4e46-9691-f5255931cab4"/>
+				<imageExpression><![CDATA["C:/Users/Hualong/Desktop/Reportes/klipartz.com (5).png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="65" y="36" width="39" height="20" uuid="1819c1e6-377b-4571-ac8d-fd97d9166ce9"/>
+				<imageExpression><![CDATA["C:/Users/Hualong/Desktop/Reportes/klipartz.com (4).png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="170" y="27" width="300" height="30" uuid="9d6fc453-1a51-4291-a278-40eadb08cf21"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="291" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-21" y="-1" width="612" height="231" backcolor="#FFD6A5" uuid="4b10e566-38df-4167-af39-339ab32d8dd0"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="80" y="79" width="108" height="22" uuid="9bc2d797-72fe-4ec2-8af9-7d5b705c5956"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<text><![CDATA[Para el año]]></text>
+			</staticText>
+			<image>
+				<reportElement x="430" y="160" width="169" height="70" uuid="cb3210ac-55f2-4896-82e9-103fea0cba60"/>
+				<imageExpression><![CDATA["C:/Users/Hualong/Desktop/Reportes/klipartz.com (3).png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="129" y="31" width="330" height="28" uuid="8ebc3034-dc35-4a12-9644-6c803838b7db"/>
+				<textElement>
+					<font fontName="Arial Black" size="16"/>
+				</textElement>
+				<text><![CDATA[Reporte Anual de Total de Asistentes]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="475" y="99" width="91" height="19" isPrintInFirstWholeBand="true" uuid="f48d18e0-bbbe-439c-a33b-01191ec74ea2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{asistencia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="60" y="101" width="419" height="22" uuid="c08b1823-2f98-45d6-b967-d700289b7ce1"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<text><![CDATA[Se obtuvo un total de asistencias en Eventos generales de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="123" width="399" height="22" uuid="43f44890-ea1e-450b-8183-9c79d670a57e"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="14"/>
+				</textElement>
+				<text><![CDATA[Además, en las Noches de Samba asistió un total de]]></text>
+			</staticText>
+			<image>
+				<reportElement x="470" y="-127" width="200" height="140" uuid="54193498-cf25-4db4-bfc7-659730a443b4"/>
+				<imageExpression><![CDATA["C:/Users/Hualong/Desktop/Reportes/klipartz.com.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="164" y="78" width="100" height="30" uuid="61f0b34e-22f8-4bab-ba54-459ab70700e1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="394" y="121" width="25" height="31" uuid="7486cd4c-7aff-45db-a0d4-7145842a09e1"/>
+				<subreportParameter name="nombre">
+					<subreportParameterExpression><![CDATA[$P{nombre}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fecha">
+					<subreportParameterExpression><![CDATA[$P{fecha}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["/.settings/subreportAsistentes.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>
